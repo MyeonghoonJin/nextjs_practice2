@@ -21,6 +21,18 @@
   .p-20 {
     padding: 20px;
   }
+  .navbar {
+    background: white;
+    padding: 20px;
+  }
+  .navbar a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+  }
+  .logo {
+    font-weight: bold;
+  } 
   input {
     box-sizing: border-box;
     padding: 10px;
@@ -32,4 +44,7 @@
     background: lightgray;
     border: none;
     border-radius: 5px;
-  } 
+  }
+  .editButton{
+    text-decoration: none;
+  }

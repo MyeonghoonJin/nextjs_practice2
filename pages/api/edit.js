@@ -18,5 +18,5 @@ export default async function EditHandler(요청,응답) {
         )
         return 응답.status(200).redirect('/list')
     }
-    응답.status(200).json("실패") 
+    응답.status(500).json("실패") 
 }

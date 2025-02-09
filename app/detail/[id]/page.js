@@ -17,9 +17,6 @@ export default async function Detail(props){
             <h1>상세페이지</h1>
             <h4>{post.title}</h4>
             <p>{post.content}</p>
-            <Link href={`/edit/${post._id}`}>
-                <button>수정</button>
-            </Link>
         </div>
     )
 }
