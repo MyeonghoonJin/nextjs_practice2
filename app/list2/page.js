@@ -4,7 +4,9 @@ import DetailLink from "./detailLink";
 import ListItem from "./listItem";
 
 // static rendering하는 페이지를 dynamic rendering이 되도록 하는 문장
-export const dynamic = 'force-dynamic'
+// export const dynamic = 'force-dynamic'
+
+export const revalidate = 60
 // dynamic rendering의 단점 : 페이지를 로드할 때 마다 서버와 DB에 접근하기 때문에 서버나 DB의 부담이 큼
 // 이러한 단점을 해결하는 방법 -> caching 기능 
 // caching 기능이란 서버나 DB에서 받아온 데이터들을 임시로 캐시에 저장해서 자주 사용하는 데이터를 바로 전달할 수 있는 기능
