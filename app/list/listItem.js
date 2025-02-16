@@ -16,6 +16,7 @@ export default function ListItem({array}){
 
     let router = useRouter()
     let a = array
+
     return(
         <div>
             {
@@ -25,36 +26,36 @@ export default function ListItem({array}){
                         <Link href = {`detail/${post._id}`}>{post.title}</Link><br></br>
                         <Link className="editButton" href={`/edit/${post._id}`}>✏️</Link>
                         <span onClick={(e) =>{
-                            // fetch('/api/delete',{
-                            //     method : "DELETE",
-                            //     body : post._id 
-                            // }).then((r) =>{
-                            //     if(r.status == 200){
-                            //         return r.json();
-                            //     }
-                            //     else{
-                            //         //서버에서 에러가 생겼을 때
-                            //     }
-                            // }).then((r) => {
-                            //     e.target.parentElement.style.opacity = 0;
-                            //     setTimeout(() => {
-                            //         e.target.parentElement.style.display = 'none';
-                            //     },1000)
-                            //     // alert('삭제 되었습니다!')
-                            //     console.log(r);
-                            //     // router.push('/list');
-                            // }).catch((error) => {
-                            //     console.log(error);
-                            // })
+                            fetch('/api/delete',{
+                                method : "DELETE",
+                                body : post._id 
+                            }).then((r) =>{
+                                if(r.status == 200){
+                                    return r.json();
+                                }
+                                else{
+                                    //서버에서 에러가 생겼을 때
+                                }
+                            }).then((r) => {
+                                e.target.parentElement.style.opacity = 0;
+                                setTimeout(() => {
+                                    e.target.parentElement.style.display = 'none';
+                                },1000)
+                                // alert('삭제 되었습니다!')
+                                console.log(r);
+                                // router.push('/list');
+                            }).catch((error) => {
+                                console.log(error);
+                            })
 
 
                             // fetch(`/api/test/id=${post._id}`).then(()=>{
                             //     router.push('/list');
                             // })
 
-                            fetch(`/api/dynamic/${post._id}/test`).then(() =>{
-                                router.push('/list');
-                            })
+                            // fetch(`/api/dynamic/${post._id}/test`).then(() =>{
+                            //     router.push('/list');
+                            // })
                             
                         }}>🗑️</span>
                         <p>날짜</p>

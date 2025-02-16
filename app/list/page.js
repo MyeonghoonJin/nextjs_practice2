@@ -2,6 +2,8 @@ import { connectDB } from "@/util/database";
 import Link from "next/link";
 import DetailLink from "./detailLink";
 import ListItem from "./listItem";
+import { getSession } from "next-auth/react";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 // static rendering하는 페이지를 dynamic rendering이 되도록 하는 문장
 export const dynamic = 'force-dynamic'
@@ -17,6 +19,9 @@ export default async function List() {
   
   
     let a = await db.collection('post').find().toArray()
+
+    // let session = await getSession(authOptions)
+    // console.log(session)
 
     // Link 태그는 자동으로 prefetch 기능이 있음
     // 즉, Link를 누르기 전에 페이지 내용이 preload 됨.

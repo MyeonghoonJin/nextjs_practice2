@@ -1,4 +1,19 @@
-export default function Write(){
+import { authOptions } from "@/pages/api/auth/[...nextauth]"
+import { getServerSession } from "next-auth"
+
+export default async function Write(){
+
+
+    let session = await getServerSession(authOptions);
+
+
+    if(!session){
+        return(
+            <div>
+                <h1>로그인하셈</h1>
+            </div>
+        )
+    }
     return(
         <div className="p-20">
             <h4>글 작성</h4>

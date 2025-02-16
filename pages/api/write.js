@@ -1,16 +1,23 @@
 import { connectDB } from "@/util/database";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]";
 
 export default async function WriteHandler(요청,응답){
+
     const client = await connectDB
     const db = client.db("forum")
     
-    // 요청.body -> 입력값의 json형태
-    let 입력값 = 요청.body
+    
+    
+    let session = await getServerSession(요청,응답,authOptions)
 
-    console.log(입력값)
-    let newPost = {title:입력값.title, content:입력값.content}
-    if(입력값.title != '' && 입력값.content != ''){
-        let result = db.collection("post").insertOne(newPost)
+    if(session){
+        요청.body.author = session.user.email
+    }
+    console.log(요청.body)
+
+    if(요청.body.title != '' && 요청.body.content != ''){
+        let result = db.collection("post").insertOne(요청.body)
         return 응답.status(200).redirect('/list')
     } 
     응답.status(500).json("공백")

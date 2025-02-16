@@ -25,8 +25,7 @@ export default async function RootLayout({ children }) {
 
   //서버 컴포넌트에서 로그인된 유저정보 출력
   let user = await getServerSession(authOptions)
-
-  console.log(user)
+  // console.log(user)
 
   return (
     <html lang="en">
@@ -34,7 +33,7 @@ export default async function RootLayout({ children }) {
       <div className="navbar"> 
         <Link href="/" className="logo">Appleforum</Link>
         <Link href="/list">List</Link>
-        {/* <Link href="/write">글쓰기</Link> */}
+        <Link href="/write">글쓰기</Link>
         {
           !user ? <SignInBtn></SignInBtn> : <SignOutBtn></SignOutBtn>
         }

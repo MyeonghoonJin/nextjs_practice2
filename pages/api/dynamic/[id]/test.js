@@ -1,12 +1,15 @@
 // 서버 역할하는 코드
-
+// URL 파라미터를 위한 코드
 import { connectDB } from "@/util/database";
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]";
 
 //  
 export default async function Handler(요청,응답){
     
-    console.log(요청.query)
+    let session = await getServerSession(요청,응답,authOptions)
+
 
     try{
         //JSON : Object형태에서 속성이 큰 따옴표로 되어 있는 것
@@ -15,9 +18,21 @@ export default async function Handler(요청,응답){
         const db = await client.db("forum");
         
         let id = 요청.query;
+        let target = await db.collection('post').findOne({_id: new ObjectId(id)})
+        let result
 
-        let result = await db.collection('post').deleteOne({_id:new ObjectId(id)})
-        console.log(result)
+
+        if(!session){
+            return 응답.status(500).json({error:"로그인 필요"})
+        }
+        else{
+           if(session.user.email == target.author){
+                result = await db.collection('post').deleteOne({_id:new ObjectId(id)});
+            }
+        }
+        
+
+        
         
         switch(result.deletedCount){
             case 0:
