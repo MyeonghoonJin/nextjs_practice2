@@ -41,7 +41,10 @@ export default async function Register(요청,응답) {
         else{
             요청.body.role = "normal";
         }
+        //하트 댓글 목록 
+        요청.body.commentLikeList = [];
+        
         let result = db.collection('member').insertOne(요청.body)
-        응답.status(200).redirect('/register')
+        응답.status(200).redirect('/')
     }
 }
