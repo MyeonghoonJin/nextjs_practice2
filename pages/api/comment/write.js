@@ -13,9 +13,11 @@ export default async function CommentWriteHandler(요청,응답){
     const db = await client.db('forum');
 
     let session = await getServerSession(요청,응답,authOptions);
+
     if(!session){
         return 응답.status(500).json('권한 없음');
     }
+
     let newComment = {
         content : 요청.body.content, 
         author : session.user.email, 
@@ -29,7 +31,7 @@ export default async function CommentWriteHandler(요청,응답){
             return 응답.status(500).json('공백 또는 게시글 없음')
         }
         let result = db.collection('comment').insertOne(newComment);
-        응답.status(200).json('댓글 작성 성공')
+        응답.status(200).json(newComment)
     }
     catch(error){
         console.log(error);

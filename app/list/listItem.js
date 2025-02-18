@@ -57,9 +57,11 @@ export default function ListItem({array}){
                             //     router.push('/list');
                             // })
                             
-                        }}>🗑️</span>
+                        }}>🗑️</span><br></br>
+                        
                         <p>날짜</p>
                         <p>1월 1일</p>
+                        <span>추천</span><span></span>
                         {/* <DetailLink/> */}
                     </div>
                 )

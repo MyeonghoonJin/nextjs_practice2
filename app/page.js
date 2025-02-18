@@ -4,8 +4,8 @@ import { connectDB } from "@/util/database";
 //await은 해당 코드가 처리가 늦어지면 제끼고 다음 코드로 넘어가는 키워드
 export default async function Home() {
 
-  const client = await connectDB;
-  const db = client.db("forum")
+  // const client = await connectDB;
+  // const db = client.db("forum")
 
   //object 자료형 : {key : value , ...} 형태의 자료형
   //object 자료형의 특정 value만 출력하려면?
