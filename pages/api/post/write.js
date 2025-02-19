@@ -1,6 +1,7 @@
 import { connectDB } from "@/util/database";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./auth/[...nextauth]";
+import { authOptions } from "../auth/[...nextauth]";
+
 
 export default async function WriteHandler(요청,응답){
 
