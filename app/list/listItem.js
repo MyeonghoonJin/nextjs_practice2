@@ -1,20 +1,34 @@
 'use client'
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function ListItem({array}){
 
+    let [commentCounts,setCommentCounts] = useState([])
+    let [likeCounts,setLikeCounts] = useState([])
     //useEffect는 html이 전부 렌더링 된 후에 실행
     //즉 초기에 데이터가 로딩되지 않아 검색 봇에게 노출이 잘 안된다는 단점
     useEffect(() => {
         //직접 DB에 접근하는 코드 X
         //서버에 DB정보를 요청하는 코드
         //result = DB정보
-
+        fetch('api/post/count',{
+            method : 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify(array),
+        })
+        .then(r => r.json())
+        .then((data) => {
+            setCommentCounts(data.commentCnts)
+            setLikeCounts(data.likeCnts)
+        })
     },[])
 
     let router = useRouter()
+    // post 리스트
     let a = array
 
     return(
@@ -26,7 +40,7 @@ export default function ListItem({array}){
                         <Link href = {`detail/${post._id}`}>{post.title}</Link><br></br>
                         <Link className="editButton" href={`/edit/${post._id}`}>✏️</Link>
                         <span onClick={(e) =>{
-                            fetch('/api/delete',{
+                            fetch('/api/post/delete',{
                                 method : "DELETE",
                                 body : post._id 
                             }).then((r) =>{
@@ -61,7 +75,11 @@ export default function ListItem({array}){
                         
                         <p>날짜</p>
                         <p>1월 1일</p>
-                        <span>추천</span><span></span>
+                        <span key={index}>
+                            댓글 수 : {commentCounts[index] >= 0 ? commentCounts[index] : '?'}
+                            <br></br>
+                            추천 수 : {likeCounts[index] >= 0 ? likeCounts[index] : '?'}
+                        </span>
                         {/* <DetailLink/> */}
                     </div>
                 )

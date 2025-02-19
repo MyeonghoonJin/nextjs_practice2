@@ -3,41 +3,54 @@ import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
-export default function Comment({post_id,user_id,user_name,user_role}) {
+export default function Comment({post_id,user_id,user_name,user_email}) {
 
     let [content,setContent] = useState('')
     let [comments,setComments] = useState([])
     let [likeStatus,setLikeStatus] = useState([])
     let [isClicked,setIsClicked] = useState(false)
     let router = useRouter()
-
+    
     //comments에 게시글의 댓글 가져오기
     useEffect(() =>{
-        fetch(`/api/comment/list?id=${post_id}`)
-        .then((r) => r.json())
-        .then((data) => {
-            //댓글 가져오기
-            setComments(data)
-
-            // ✅ 초기 likeStatus 배열을 false로 설정 (렌더링마다 실행되지 않도록 함)
-            const initialLikes = data.map(() => false);
-            setLikeStatus(initialLikes);
-
-            //가져온 댓글 중에서 각각의 likedMember에서 user_id가 있는지 순회
-            //있으면  
-            data.forEach((comment,idx) =>{
-                comment.likedMember.forEach((likedMember,i) => {
-                    if(user_id == likedMember){
-                        setLikeStatus(
-                            prev => prev.map((item,index) => index === idx ? true : item
+        //fetch 비동기 처리
+        const fetchComments = async () => {
+            try {
+                const response = await fetch(`/api/comment/list?id=${post_id}`)
+                const data = await response.json()
+    
+                if (!data || !Array.isArray(data)) {
+                    console.error("데이터가 존재하지 않음:", data)
+                    return
+                }
+    
+                setComments(data);
+    
+                // ✅ 초기 좋아요 상태 설정
+                setLikeStatus(data.map(() => false));
+    
+                // ✅ likedMember가 존재하는지 체크 후 처리
+                data.forEach((comment, idx) => {
+                    if (!comment.likedMember || !Array.isArray(comment.likedMember)) return;
+                    comment.likedMember.forEach((likedMember) => {
+                        if (user_id == likedMember) {
+                            setLikeStatus(prev =>
+                                prev.map((item, index) => (index === idx ? true : item))
                             )
-                        )
-                    }
-                });
-            })
-            if (isClicked) router.refresh()
+                        }
+                    })
+                })
+                if (isClicked) {
+                    router.refresh()
+                    setIsClicked(false)
+                }
+            } catch (error) {
+                console.error("댓글 데이터를 불러오는 중 오류 발생:", error)
+            }
         }
-    )},[post_id,isClicked]) // html로드가 될 때 1회만 실행되도록 하도록 설정
+        fetchComments()
+
+    },[post_id,isClicked]) // html로드가 될 때 1회만 실행되도록 하도록 설정
     
     return(
         <div>
@@ -70,14 +83,13 @@ export default function Comment({post_id,user_id,user_name,user_role}) {
                         }}>{likeStatus[i] ? '❤️' : '🤍' }
                         </button><span> x {comment.likes}</span><br></br><br></br>
                         {
-                            (user_role == 'admin') ? 
+                            (user_email == 'audgns1947@dgu.ac.kr') ? 
                             <button onClick={(e) => {
                                 fetch('/api/comment/delete?comment_id=' + comment._id)
                                 .then(r => r.json())
                                 .then(() => {
-                                    setTimeout(() => {
-                                        e.target.parentElement.style.display = 'none';
-                                    },300)
+                                    isClicked ? e.target.parentElement.style.display = 'none' : ''
+                                    setIsClicked(!isClicked)
                                 })
                             }}>댓글 삭제</button> 
                             : ''

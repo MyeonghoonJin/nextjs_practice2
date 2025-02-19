@@ -1,7 +1,7 @@
 import { connectDB } from "@/util/database";
 import { ObjectId } from "mongodb";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./auth/[...nextauth]";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function Delete(요청,응답){
 
@@ -26,7 +26,7 @@ export default async function Delete(요청,응답){
             return 응답.status(500).json({error:"로그인 필요"})
         }
         else{
-           if(session.user.email == target.author || session.user.role == 'admin'){
+           if(session.user.email == target.author || session.user.email == 'audgns1947@dgu.ac.kr'){
                 result = await db.collection('post').deleteOne({_id:new ObjectId(id)});
             }
         }

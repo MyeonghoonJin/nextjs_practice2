@@ -11,7 +11,7 @@ export default async function Edit(props) {
     return (
         <div className="p-20">
             <h4>글 수정</h4>
-            <form action="../api/edit" method="POST">
+            <form action="../api/post/edit" method="POST">
                 <input type="hidden" name="id" value={id} />{/* _id를 첨부 */}
                 <input type="text" name="title" defaultValue={post.title} />
                 <input type="text" name="content" defaultValue={post.content}/>
