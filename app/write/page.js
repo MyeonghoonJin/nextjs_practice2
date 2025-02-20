@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation"
+import { getSession } from "next-auth/react";
 import { useEffect, useReducer, useState } from "react"
 
 export default function Write(){
@@ -9,7 +10,7 @@ export default function Write(){
     let [title,setTitle] = useState('')
     let [content,setContent] = useState('')
     let [preview,setPreview] = useState('')
-    
+    let [loading, setLoading] = useState(true);
     let router = useRouter()
     // const formData = new FormData()
     // formData.append("title",title)
@@ -20,13 +21,21 @@ export default function Write(){
 
     useEffect(() => {
         
+        getSession().then(session => {
+            if (!session) {
+                alert("로그인이 필요합니다.");
+                router.push("/");
+            } else {
+                setLoading(false);
+            }
+        });
         return () => {
             if (preview) {
                 URL.revokeObjectURL(preview);
             }
         };
     }, [])
-
+    if (loading) return <p>로딩 중...</p>;
     return(
         <div className="p-20">
         <h4>글 작성</h4>
