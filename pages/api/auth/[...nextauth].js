@@ -5,13 +5,16 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcrypt';
-import { redirect } from "next/dist/server/api-utils";
 
 export const authOptions = {
   providers: [
     GithubProvider({
-      clientId: 'Ov23liY5LxNbxM7g95Wd',
-      clientSecret: 'd10c494cac3f56ef50f8ce7f7f571433cd773c1f',
+      // nextjslogin info
+      clientId: 'Ov23lidq3EHwsdyKAJ4K',
+      clientSecret: '7084930b756e751aa644c8e47d0e95ad33951e5f',
+      // nextjslogindeploy info
+      // clientId: '',
+      // clientSecret: '',
     }),
     // GoogleProvider({
     //   clientId: '',

@@ -26,13 +26,14 @@ export default async function Detail({params}){
 
     let session = await getServerSession(authOptions)
 
-    console.log(session)
+    console.log(post)
 
     return(
         <div>
             <h1>상세페이지</h1>
             <h4>{post.title}</h4>
             <p>{post.content}</p>
+            <img src={post.src}></img>
             <Like post_id = {post_id} user_id = {session ? session.user.id : ''}  />
             <hr></hr>
             {
