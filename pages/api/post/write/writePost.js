@@ -5,7 +5,7 @@ import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function WriteHandler(요청,응답){
 
-    if (요청.method !== "POST") return res.status(405).json({ message: "Method Not Allowed" });
+    if (요청.method !== "POST") return 응답.status(405).json({ message: "Method Not Allowed" });
 
     const client = await connectDB
     const db = client.db("forum")

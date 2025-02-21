@@ -5,7 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import SignInBtn from "./signInBtn";
 import SignOutBtn from "./signOutBtn";
-
+import DarkModeOnBtn from "./darkModeOnBtn";
+import { cookies } from "next/headers"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,19 +28,24 @@ export default async function RootLayout({ children }) {
   let session = await getServerSession(authOptions)
   // console.log(user)
 
+  let res =  (await cookies()).get('darkMode')
+  let currentCookie = res ? res.value : 'off'
+
+  let className = (res != undefined && res.value == 'on') ? 'dark-mode' : 'light-mode'
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <div className="navbar"> 
-        <Link href="/" className="logo">Appleforum</Link>
+      <body className= {className} >
+      <div className="navbar" > 
+        <Link href="/" className="logo">forum</Link>
         <Link href="/list">List</Link>
         {
           session ?  <Link href="/write" >글쓰기</Link> : <div></div>
         }
         {
-          !session ? <SignInBtn></SignInBtn> : <SignOutBtn></SignOutBtn>
+        !session ? <span><SignInBtn></SignInBtn></span> : <span><SignOutBtn></SignOutBtn></span>
         }
-      </div>  
+        <DarkModeOnBtn currentCookie={currentCookie}/>
+      </div>
         {children}
       </body>
     </html>

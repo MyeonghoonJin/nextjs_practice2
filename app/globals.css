@@ -50,6 +50,10 @@
   .editButton{
     text-decoration: none;
   }
-  .post-like-btn{
+  .dark-mode .navbar{
+    background: #222;
+  }
+  .dark-mode .navbar a{
     color: white;
   }
+
