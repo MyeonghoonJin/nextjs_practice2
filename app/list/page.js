@@ -18,8 +18,8 @@ export default async function List() {
     const db = client.db("forum")
   
   
-    let a = await db.collection('post').find().toArray()
-
+    let posts = await db.collection('post').find().toArray()
+    let plainPosts = []
     // let session = await getSession(authOptions)
     // console.log(session)
 
@@ -29,9 +29,23 @@ export default async function List() {
     // 단점 : 페이지에 보이는 모든 링크의 데이터를 모두 preload하게 됨.
     // 'prefetch={false}' 속성을 추가해서 비활성화 가능
     // 개발중에는 확인불가 
+
+    // document객체 직렬화
+
+    if(posts){
+      for(const post of posts){
+        const plainPost = {
+        ...post,
+        _id: post._id.toString(), //  _id를 String으로 변환
+        };
+        plainPosts.push(plainPost)
+      }
+    }
+    
+    
     return (
     <div className="list-bg">
-        <ListItem array = {a} ></ListItem>
+        <ListItem array = {plainPosts} ></ListItem>
       </div>
     );
   }

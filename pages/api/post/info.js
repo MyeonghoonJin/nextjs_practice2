@@ -34,7 +34,6 @@ export default async function Info(요청,응답) {
                 hour12: false, // 24시간 형식
                 timeZone: "Asia/Seoul", // ✅ 한국 시간(KST) 적용
             }).replace(/\./g, "").replace(/(\d{2}) (\d{2})/, "$1.$2");
-            console.log(postTime)
             postTimes.push(postTime)
         }
         return 응답.status(200).json({commentCnts,likeCnts,postTimes})

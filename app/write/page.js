@@ -20,7 +20,6 @@ export default function Write(){
     // console.log(formData)
 
     useEffect(() => {
-        
         getSession().then(session => {
             if (!session) {
                 alert("로그인이 필요합니다.");

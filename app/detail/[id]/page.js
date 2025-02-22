@@ -33,13 +33,13 @@ export default async function Detail({params}){
             <h1>상세페이지</h1>
             <h4>{post.title}</h4>
             <p>{post.content}</p>
-            <img src={post.src}></img>
-            <Like post_id = {post_id} user_id = {session ? session.user.id : ''}  />
+            <img src={post.src== '' ? null : post.src}></img>
+            <Like post_id = {post_id.toString()} user_id = {session ? session.user.id.toString() : ''}  />
             <hr></hr>
             {
             <Comment 
-                post_id = {post_id} 
-                user_id = {session ? session.user.id : ''} 
+                post_id = {post_id.toString()}
+                user_id = {session ? session.user.id.toString() : ''} 
                 user_name = {session ? session.user.name : ''} 
                 user_email = {session ? session.user.email : ''}
                 /> 

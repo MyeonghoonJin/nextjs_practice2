@@ -96,7 +96,7 @@ export default function Comment({post_id,user_id,user_name,user_email}) {
                         }
                     </div>
                     )
-                }) : '댓글 로딩 중...'
+                }) : ''
             }
             <br></br>
             <div>

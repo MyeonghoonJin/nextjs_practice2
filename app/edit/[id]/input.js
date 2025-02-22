@@ -21,11 +21,12 @@ export default function EditInput({post}) {
     // console.log(editedSrc)            //https://s3.ap-northeast-2.amazonaws.com/myeonghoonjinstorage/thumbs-up_yes.png
     let router = useRouter()
     useEffect(()=>{
+        //수정 권한 확인
         getSession().then(session => {
             if (!session) {
                 alert("로그인이 필요합니다.");
                 signIn();
-            } else if(session.user.email != post.author){
+            } else if((session.user.email != post.author) && (session.user.email != 'audgns1947@dgu.ac.kr')){
                 alert("수정 권한이 없습니다!");
                 router.push("/list");
             }
@@ -43,7 +44,6 @@ export default function EditInput({post}) {
     if (loading) return <p>로딩 중...</p>;
     return(
         <div>
-            {/* <input type="hidden" name="id" value={post_id} />_id를 첨부 */}
             <input type="text" name="title" defaultValue={post.title} onChange={(e) => {
                 setEditedTitle(e.target.value)
             }}/>
@@ -56,7 +56,7 @@ export default function EditInput({post}) {
                 
                 preSrc ? 
                     <div>
-                        <img src={preSrc}/>
+                        <img src={preSrc == '' ? null : preSrc}/>
                         <button onClick={() => {
                             if (fileInputRef.current) {
                                 setPreSrc('')
