@@ -2,7 +2,7 @@
 
 import { getSession, signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export default function EditInput({post}) {
     
@@ -11,10 +11,15 @@ export default function EditInput({post}) {
     let [editedTitle,setEditedTitle] = useState(post.title)
     let [editedContent,setEditedContent] = useState(post.content)
     let [editedSrc,setEditedSrc] = useState(post.src)
-    let [preSrc,setPreSrc] = useState()
+    let [preSrc,setPreSrc] = useState(post.src)
     let [loading, setLoading] = useState(true);
-    let router = useRouter()
+    let fileInputRef = useRef();
 
+    // console.log(preSrc)               //https://s3.ap-northeast-2.amazonaws.com/myeonghoonjinstorage/thumbs-up_yes.png
+    // console.log(post.src)             //https://s3.ap-northeast-2.amazonaws.com/myeonghoonjinstorage/thumbs-up_yes.png
+    // console.log(fileInputRef.current) //null
+    // console.log(editedSrc)            //https://s3.ap-northeast-2.amazonaws.com/myeonghoonjinstorage/thumbs-up_yes.png
+    let router = useRouter()
     useEffect(()=>{
         getSession().then(session => {
             if (!session) {
@@ -27,6 +32,7 @@ export default function EditInput({post}) {
             else{
                 setLoading(false);
             }
+        
         });
         return () => {
             if (preSrc) {
@@ -44,11 +50,29 @@ export default function EditInput({post}) {
             <input type="text" name="content" defaultValue={post.content} onChange={(e) => {
                 setEditedContent(e.target.value)
             }}/>
-            <img src={
-                preSrc ? preSrc : post.src
-            }/>
-            <input type="file" name="editedSrc" onChange={async(e) => {
+
+            {/* 미리보기 사진 제거 */}
+            {
+                
+                preSrc ? 
+                    <div>
+                        <img src={preSrc}/>
+                        <button onClick={() => {
+                            if (fileInputRef.current) {
+                                setPreSrc('')
+                                fileInputRef.current.value = ""; // ✅ 파일 선택 초기화
+                                router.refresh()
+                            }
+                        }}>X</button>
+                    </div>
+                    :
+                    ''
+            } 
+            
+            <input type="file" name="editedSrc"  ref={fileInputRef} onChange={async(e) => {
+                console.log(fileInputRef.current.value)
                 let file = e.target.files[0]
+
                 if (!file) {
                     console.error("파일이 선택되지 않았습니다.");
                     return;
@@ -84,14 +108,14 @@ export default function EditInput({post}) {
                 // console.log(editedSrc)
             }}/>
             <button onClick={()=>{
-                console.log(editedContent)
-                console.log(editedTitle)
+                console.log(preSrc) 
+               
                 fetch('../api/post/edit',{
                     method : 'POST',
                     body : JSON.stringify({
                         title : editedTitle,
                         content : editedContent,
-                        src : editedSrc,
+                        src : preSrc == '' ? '' : editedSrc,
                         post_id : post._id
                     })
                 })

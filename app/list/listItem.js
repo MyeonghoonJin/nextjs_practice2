@@ -7,13 +7,17 @@ export default function ListItem({array}){
 
     let [commentCounts,setCommentCounts] = useState([])
     let [likeCounts,setLikeCounts] = useState([])
+    let [postTimes,setPostTimes] = useState([])
+    //현재 시간
+    let now = new Date().toLocaleString("ko-KR");
+
     //useEffect는 html이 전부 렌더링 된 후에 실행
     //즉 초기에 데이터가 로딩되지 않아 검색 봇에게 노출이 잘 안된다는 단점
     useEffect(() => {
         //직접 DB에 접근하는 코드 X
         //서버에 DB정보를 요청하는 코드
         //result = DB정보
-        fetch('api/post/count',{
+        fetch('api/post/info',{
             method : 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -24,6 +28,7 @@ export default function ListItem({array}){
         .then((data) => {
             setCommentCounts(data.commentCnts)
             setLikeCounts(data.likeCnts)
+            setPostTimes(data.postTimes)
         })
     },[])
 
@@ -73,9 +78,10 @@ export default function ListItem({array}){
                             
                         }}>🗑️</span><br></br>
                         
-                        <p>날짜</p>
-                        <p>1월 1일</p>
                         <span key={index}>
+                            <p>
+                            작성일 : {postTimes[index]  ? postTimes[index] : '?'}
+                            </p>
                             댓글 수 : {commentCounts[index] >= 0 ? commentCounts[index] : '?'}
                             <br></br>
                             추천 수 : {likeCounts[index] >= 0 ? likeCounts[index] : '?'}
@@ -85,6 +91,9 @@ export default function ListItem({array}){
                 )
             })
         }
+        <div className="list-page-btn">
+            [처음][이전] [1],[2],...[10] [다음][마지막]
+        </div>
         </div>
     )
 }
