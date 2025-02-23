@@ -95,7 +95,7 @@ export default function Write(){
                 })
                 .then(()=>{
                     alert('글이 작성되었습니다.')
-                    router.push('/list')
+                    router.back()
                 })
             }}>입력</button>
         </div>

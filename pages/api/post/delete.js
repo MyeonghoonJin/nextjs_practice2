@@ -31,18 +31,24 @@ export default async function Delete(요청,응답){
             return 응답.status(500).json({error:"로그인 필요"})
         }
         else{
+            // 글쓴이 또는 admin인 경우
            if(session.user.email == target.author || session.user.email == 'audgns1947@dgu.ac.kr'){
                 result = await db.collection('post').deleteOne({_id:new ObjectId(post_id)});
+                return 응답.status(200).json('1개 삭제 성공');
+            }
+            //삭제 권한이 없는 경우
+            else{
+                return 응답.status(403).json('삭제 권한 없음')
             }
         }
-        switch(result.deletedCount){
-            case 0:
-                return 응답.status(500).json('삭제 실패');
-            case 1:
-                return 응답.status(200).json('1개 삭제 성공');
-            default:
-                return 응답.status(200).json('여러개 삭제 성공');
-        }
+        // switch(result.deletedCount){
+        //     case 0:
+        //         return 응답.status(500).json('삭제 실패');
+        //     case 1:
+                
+        //     default:
+        //         return 응답.status(200).json('여러개 삭제 성공');
+        // }
     }
     catch(error){
         console.log(error);

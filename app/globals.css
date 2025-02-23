@@ -62,4 +62,36 @@
   .dark-mode a{
     color: white;
   } */
+  .list-page-btn {
+    display: flex;
+    align-items: center;  /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 좌-우 버튼 배치 */
+    width: 100%; /* 부모 요소 너비 사용 */
+    padding: 10px 0;
+}
 
+/* ✅ 왼쪽 버튼 컨테이너 */
+.left-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간격 */
+    flex-grow: 1; /* 왼쪽 영역 확장 (페이지 번호를 중앙으로 유지) */
+}
+
+/* ✅ 페이지 번호 (항상 중앙) */
+.page-number {
+    text-align: center;
+    font-weight: bold;
+    flex-grow: 1; /* 중앙에서 공간을 확보하여 가운데 유지 */
+}
+
+/* ✅ 오른쪽 버튼 컨테이너 */
+.right-buttons {
+    display: flex;
+    justify-content: flex-end; /* ✅ "다음" 버튼을 항상 오른쪽 끝에 배치 */
+    flex-grow: 1; /* 오른쪽 영역 확장 */
+}
+
+/* ✅ 버튼 스타일 (필요 시 추가 가능) */
+.init-Btn, .prev-Btn, .next-Btn {
+    cursor: pointer;
+}

@@ -14,7 +14,7 @@ export async function middleware(request){
     
     // 로그인 없이 글 작성페이지 제어
     const session = await getToken({req : request})
-
+    // console.log(request.nextUrl)
 
     //특정 사람의 방문 수 (쿠키에 저장)
     if(request.nextUrl.pathname.startsWith('/write') && session){
@@ -60,7 +60,7 @@ export async function middleware(request){
 
 
 
-    if(request.nextUrl.pathname.startsWith('/list')){
-        
-    }
+    // if(request.nextUrl.pathname == '/api/post/delete'){
+    //     // if(session.user.role == 'admin' || )
+    // }
 }

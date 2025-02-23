@@ -1,4 +1,3 @@
-import { connectDB } from "@/util/database";
 import Link from "next/link";
 import DetailLink from "./detailLink";
 import ListItem from "./listItem";
@@ -13,13 +12,7 @@ export const dynamic = 'force-dynamic'
 // export const revalidate = ??  -> ??초만큼 해당 페이지의 캐싱을 저장하는 예악어 문장
 // fetch함수에 next: {revalidate  : ?? } 를 설정하면 캐싱 시간을 조절 가능
 export default async function List() {
-
-    const client = await connectDB;
-    const db = client.db("forum")
   
-  
-    let posts = await db.collection('post').find().toArray()
-    let plainPosts = []
     // let session = await getSession(authOptions)
     // console.log(session)
 
@@ -32,20 +25,9 @@ export default async function List() {
 
     // document객체 직렬화
 
-    if(posts){
-      for(const post of posts){
-        const plainPost = {
-        ...post,
-        _id: post._id.toString(), //  _id를 String으로 변환
-        };
-        plainPosts.push(plainPost)
-      }
-    }
-    
-    
     return (
     <div className="list-bg">
-        <ListItem array = {plainPosts} ></ListItem>
+        <ListItem ></ListItem>
       </div>
     );
   }
