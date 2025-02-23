@@ -25,9 +25,9 @@ export default async function Detail({params}){
     }
 
     let session = await getServerSession(authOptions)
-
+    
     console.log(post)
-
+    
     return(
         <div>
             <h1>상세페이지</h1>

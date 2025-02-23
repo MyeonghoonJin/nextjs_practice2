@@ -23,7 +23,7 @@ export default function Write(){
         getSession().then(session => {
             if (!session) {
                 alert("로그인이 필요합니다.");
-                router.push("/");
+                router.push("/api/auth/signin");
             } else {
                 setLoading(false);
             }

@@ -35,6 +35,7 @@ export default function ListItem({array}){
     let router = useRouter()
     // post 리스트
     let a = array
+    a = a.slice().reverse()
 
     return(
         <div>
@@ -78,7 +79,7 @@ export default function ListItem({array}){
                             
                         }}>🗑️</span><br></br>
                         
-                        <span key={index}>
+                        <span>
                             <p>
                             작성일 : {postTimes[index]  ? postTimes[index] : '?'}
                             </p>
