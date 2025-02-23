@@ -48,53 +48,45 @@ export default function ListItem({array}){
             {
             posts.map((post,index)=>{
                 return(
-                     <div className="list-item"  key={index}>
-                         <Link href = {`detail/${post._id}`}>{post.title}</Link><br></br>
-                         <Link className="editButton" href={`/edit/${post._id}`}>✏️</Link>
-                         <span onClick={(e) =>{
-                             fetch('/api/post/delete',{
-                                 method : "DELETE",
-                                 body : post._id 
-                             }).then((r) =>{
-                                if(r.status == 200){
-                                   e.target.parentElement.style.opacity = 0;
-                                   setTimeout(() => {
-                                       e.target.parentElement.style.display = 'none';
-                                   },500)
-                                   alert('삭제 되었습니다!')
-                                   router.refresh();
-                                   return r.json();
-                                }
-                                //삭제 권한 없을 경우
-                                else if(r.status == 403){
-                                   alert('삭제 권한 없음')
-                                   router.refresh();
-                                }
-                             })
-                            //  .catch((error) => {
-                            //      console.log(error);
-                            //  })
-
-
-                             // fetch(`/api/test/id=${post._id}`).then(()=>{
-                             //     router.push('/list');
-                             // })
-
-                             // fetch(`/api/dynamic/${post._id}/test`).then(() =>{
-                             //     router.push('/list');
-                             // })
-                          
+                     <div className="list-item"  key={index} onClick={() => {
+                        router.push('/detail/'+post._id)
+                     }}>
+                        <div className="post-content">
+                            <h3>{post.title}</h3>
+                            <span>
+                                <p>작성일: {postTimes[index] ? postTimes[index] : '?'}</p>
+                                댓글 수: {commentCounts[index] >= 0 ? commentCounts[index] : '?'}
+                                <br />
+                                추천 수: {likeCounts[index] >= 0 ? likeCounts[index] : '?'}
+                            </span>
+                        </div>
+                        <div className="post-buttons">
+                            <Link className="editButton" href={`/edit/${post._id}`} onClick={e =>{e.stopPropagation()}} >✏️</Link>
+                            <span className="delete-Btn" onClick={(e) =>{
+                                
+                                //부모 onclick 중복 방지
+                                e.stopPropagation()
+                                fetch('/api/post/delete',{
+                                    method : "DELETE",
+                                    body : post._id 
+                                }).then((r) =>{
+                                   if(r.status == 200){
+                                      e.target.parentElement.style.opacity = 0;
+                                      setTimeout(() => {
+                                          e.target.parentElement.parentElement.style.display = 'none';
+                                      },500)
+                                      alert('삭제 되었습니다!')
+                                      router.refresh();
+                                      return r.json();
+                                   }
+                                   //삭제 권한 없을 경우
+                                   else if(r.status == 403){
+                                      alert('삭제 권한 없음')
+                                      router.refresh();
+                                   }
+                                })         
                          }}>🗑️</span><br></br>
-                      
-                          <span>
-                             <p>
-                             작성일 : {postTimes[index]  ? postTimes[index] : '?'}
-                             </p>
-                             댓글 수 : {commentCounts[index] >= 0 ? commentCounts[index] : '?'}
-                             <br></br>
-                             추천 수 : {likeCounts[index] >= 0 ? likeCounts[index] : '?'}
-                         </span> 
-                         {/* <DetailLink/> */}
+                       </div>
                      </div>
                 )
             })
