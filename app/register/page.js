@@ -1,4 +1,5 @@
 export default function Register() {
+    
     return(
         <div>
             <h4>회원가입 페이지</h4>

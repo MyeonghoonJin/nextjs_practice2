@@ -57,10 +57,10 @@ export async function middleware(request){
             return response 
         }
     }
-
-
-
-    // if(request.nextUrl.pathname == '/api/post/delete'){
-    //     // if(session.user.role == 'admin' || )
-    // }
+    if(request.nextUrl.pathname == '/register'){
+        if(session){
+            const response = NextResponse.redirect(process.env.NEXTAUTH_URL)
+            return response
+        }
+    }
 }

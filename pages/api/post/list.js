@@ -20,7 +20,7 @@ export default async function List(요청,응답) {
         //page
         let page = 요청.query.page
         //페이지당 게시글 개수 
-        let limit = 5
+        let limit = 10
         //스킵할 게시글 개수
         let skip = (page - 1) * limit
         //해당 페이지에 있는 게시글
